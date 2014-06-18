@@ -8,6 +8,7 @@ class Product(models.Model):
     slug = models.SlugField()
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.title

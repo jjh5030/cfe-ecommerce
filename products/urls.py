@@ -5,5 +5,5 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('products.views',
-    #url(r'^products/', include('products.urls')),
+    url(r'$', 'all_products', name='products'),
 )
