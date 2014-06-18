@@ -42,18 +42,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static', 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
 
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static', 'static-only')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static', 'static-only')
 
 STATIC_URL = '/static/'
 
 STATIC_DIRS = (
-    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static', 'static'),
+    os.path.join(BASE_DIR, 'static', 'static'),
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'static', 'templates'),
+    os.path.join(BASE_DIR, 'static', 'templates'),
 )
