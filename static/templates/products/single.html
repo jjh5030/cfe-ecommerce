@@ -1,0 +1,21 @@
+{%  extends 'base.html' %}
+
+{% block jumbotron %}
+
+
+
+{%  endblock %}
+
+{%  block content %}
+
+             <h3>{{ product }}</h3>
+
+            {% for image in product.productimage_set.all %}
+                <img src="{{ MEDIA_URL }}{{ image }}" />
+                {%  endfor %}
+
+            {{ product.description|truncatewords:10 }}<br/>
+
+            {{ product.price }}
+
+{%  endblock %}

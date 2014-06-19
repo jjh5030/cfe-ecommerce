@@ -13,13 +13,15 @@
 {%  block content %}
 
         {% for product in products %}
-            {% cycle '<div class="row-fluid">' '' '' '' %}
-            <div class='span3'>
-            <h3>{{ product }}</h3>
+            {% cycle '<div class="row">' '' '' '' %}
+            <div class='col-lg-3'>
+            <h3><a href="{% url "products" %}{{ product.slug }}">{{ product }}</a></h3>
 
             {% for image in product.productimage_set.all %}
-                <img src="{{ MEDIA_URL }}{{ image }}" />
-                {%  endfor %}
+                {% if forloop.first %}
+                <a href="{% url "products" %}{{ product.slug }}"><img src="{{ MEDIA_URL }}{{ image }}" /></a>
+                {% endif %}
+            {%  endfor %}
 
             {{ product.description|truncatewords:10 }}<br/>
 
