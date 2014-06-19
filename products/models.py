@@ -13,12 +13,15 @@ class Product(models.Model):
     def __unicode__(self):
         return self.title
 
+    class Meta:
+        ordering = ['title']
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product)
     description = models.CharField(max_length=3000, null=-True, blank=True)
-    image = models.ImageField(upload_to='/product/images/')
+    image = models.ImageField(upload_to='product/images/')
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     def __unicode__(self):
-        return self.product.title + " " + str(self.image)
+        return unicode(self.image)
