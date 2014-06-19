@@ -8,12 +8,13 @@
         <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
       </div>
 
+    <hr/>
+
 {%  endblock %}
 
 {%  block content %}
 
         {% for product in products %}
-            {% cycle '<div class="row">' '' '' '' %}
             <div class='col-lg-3'>
             <h3><a href="{% url "products" %}{{ product.slug }}">{{ product }}</a></h3>
 
@@ -27,7 +28,10 @@
 
             {{ product.price }}
             </div>
-        {% cycle '' '' '' '</div><hr/>' %}
+        {%  if forloop.counter|divisibleby:4 %}
+                    </div><hr/>
+                    <div class="row">
+                {% endif %}
         {%  endfor %}
 
 {%  endblock %}
