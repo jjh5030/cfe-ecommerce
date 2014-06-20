@@ -1,4 +1,6 @@
 from django.shortcuts import render_to_response, HttpResponseRedirect, RequestContext, HttpResponse
+from django.http import Http404
+
 from .models import Cart, CartItem
 from products.models import Product
 from .forms import ProductQtyForm
@@ -10,24 +12,31 @@ def add_to_cart(request):
     except:
         cart = Cart()
         cart.save()
-        request.session['cart_id'] = cart_id
-        cart_id = cart_id
+        request.session['cart_id'] = cart.id
+        cart_id = cart.id
 
     if request.method == "POST":
         form = ProductQtyForm(request.POST)
         if form.is_valid():
-            product_slug = form.cleaned_date['slug']
-            product_quantity = form.cleaned_date['quantity']
+            product_slug = form.cleaned_data['slug']
+            product_quantity = form.cleaned_data['quantity']
 
             try:
-                product = Product.object.get(slug=product_slug)
+                product = Product.objects.get(slug=product_slug)
             except:
                 product = None
 
-            new_cart = CartItem(cart=cart_id, product=product, quantity=product_quantity)
+            try:
+                cart = Cart.objects.get(id=cart_id)
+            except:
+                cart = None
+
+            new_cart = CartItem(cart=cart, product=product, quantity=product_quantity)
             new_cart.save()
+            #print new_cart.product, new_cart.quantity, new_cart.cart
 
             return HttpResponseRedirect('/products/')
+        return HttpResponseRedirect('/contact/')
     else:
         raise Http404
 

@@ -4,7 +4,7 @@ from products.models import Product
 
 # Create your models here.
 class Cart(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, null=True, blank=True)
     total = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     active = models.BooleanField(default=True)
     timestamp = models.DateTimeField(auto_now_add=True)
