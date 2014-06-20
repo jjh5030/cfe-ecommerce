@@ -14,6 +14,7 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart)
+    total = models.DecimalField(default=0.00, max_digits=100, decimal_places=2)
     product = models.ForeignKey(Product)
     quantity = models.IntegerField(default=0)
     timestamp = models.DateTimeField(auto_now_add=True)

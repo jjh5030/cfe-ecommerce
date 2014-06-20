@@ -36,11 +36,18 @@ def add_to_cart(request):
             new_cart, created = CartItem.objects.get_or_create(cart=cart, product=product)
             new_cart.quantity = product_quantity
 
-            new_cart.save()
-            #print new_cart.product, new_cart.quantity, new_cart.cart
+            if new_cart.quantity > 0:
+                new_cart.quantity = product_quantity
+                new_cart.total = int(new_cart.quantity) * new_cart.product.price
+                new_cart.save()
+
+            else:
+                pass
 
             if created:
                 print "CREATED"
+
+            print new_cart.product, new_cart.quantity, new_cart.cart
 
             return HttpResponseRedirect('/cart/')
         return HttpResponseRedirect('/contact/')
@@ -48,7 +55,7 @@ def add_to_cart(request):
         raise Http404
 
 def view_cart(request):
-    #request.session.set_expiry(1)
+    #request.session.set_expiry(10)
     try:
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
@@ -60,6 +67,10 @@ def view_cart(request):
 
     if cart and cart.active:
         cart = cart
+        cart.total = 0
+        for item in cart.cartitem_set.all():
+            cart.total += item.total
+            cart.save()
 
     request.session['cart_items'] = len(cart.cartitem_set.all())
 
