@@ -5,7 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('cart.views',
-    url(r'^add$', 'add_to_cart'),
-    url(r'^view$', 'view_cart', name="view_cart"),
+       url(r'^$', 'view_cart', name="view_cart"),
+       url(r'^add$', 'add_to_cart'),
 
 )

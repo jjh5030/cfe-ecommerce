@@ -42,12 +42,13 @@ def add_to_cart(request):
             if created:
                 print "CREATED"
 
-            return HttpResponseRedirect('/products/')
+            return HttpResponseRedirect('/cart/')
         return HttpResponseRedirect('/contact/')
     else:
         raise Http404
 
 def view_cart(request):
+    #request.session.set_expiry(1)
     try:
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
@@ -59,5 +60,7 @@ def view_cart(request):
 
     if cart and cart.active:
         cart = cart
+
+    request.session['cart_items'] = len(cart.cartitem_set.all())
 
     return render_to_response('cart/view.html', locals(), context_instance=RequestContext(request))
