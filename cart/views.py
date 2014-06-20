@@ -7,6 +7,8 @@ from .forms import ProductQtyForm
 
 # Create your views here.
 def add_to_cart(request):
+    request.session.set_expiry(0)
+
     try:
         cart_id = request.session['cart_id']
     except:
@@ -31,12 +33,31 @@ def add_to_cart(request):
             except:
                 cart = None
 
-            new_cart = CartItem(cart=cart, product=product, quantity=product_quantity)
+            new_cart, created = CartItem.objects.get_or_create(cart=cart, product=product)
+            new_cart.quantity = product_quantity
+
             new_cart.save()
             #print new_cart.product, new_cart.quantity, new_cart.cart
+
+            if created:
+                print "CREATED"
 
             return HttpResponseRedirect('/products/')
         return HttpResponseRedirect('/contact/')
     else:
         raise Http404
 
+def view_cart(request):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+    except:
+        cart = False
+
+    if not cart or not cart.active:
+        message = "Your cart is empty"
+
+    if cart and cart.active:
+        cart = cart
+
+    return render_to_response('cart/view.html', locals(), context_instance=RequestContext(request))
