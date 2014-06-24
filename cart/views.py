@@ -37,13 +37,11 @@ def add_to_cart(request):
                 cart = None
 
             new_cart, created = CartItem.objects.get_or_create(cart=cart, product=product)
-            new_cart.quantity = product_quantity
 
-            if new_cart.quantity > 0:
+            if product_quantity > 0:
                 new_cart.quantity = product_quantity
                 new_cart.total = int(new_cart.quantity) * new_cart.product.price
                 new_cart.save()
-
             else:
                 pass
 
