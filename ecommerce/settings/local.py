@@ -80,8 +80,8 @@ ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = LOGIN_URL
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = LOGIN_REDIRECT_URL
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = None  # choose one of "mandatory", "optional", or "none"
-ACCOUNT_EMAIL_SUBJECT_PREFIX = "Subject Is:"
+ACCOUNT_EMAIL_VERIFICATION = "optional" # choose one of "mandatory", "optional", or "none"
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "Subject Is: " # Subject Is: Confirm E-mail Address
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = LOGIN_URL
 ACCOUNT_SIGNUP_FORM_CLASS = None
@@ -91,3 +91,7 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_USERNAME_BLACKLIST = ['john']
 ACCOUNT_USERNAME_REQUIRED = True
+
+# email default template
+# User bobby at example.com has given this as an email address.
+# To confirm this is correct, go to http://127.0.0.1:8000/accounts/confirm-email/...

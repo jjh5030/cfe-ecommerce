@@ -1,14 +1,15 @@
 from django.shortcuts import render_to_response, HttpResponseRedirect, RequestContext, HttpResponse
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
 
 from .models import Cart, CartItem
 from products.models import Product
 from .forms import ProductQtyForm
 
 import stripe
-stripe.api_key = "sk_test_LFUiJWOW8O8ecMsXQmhzmDxs "
+stripe.api_key = "sk_test_LFUiJWOW8O8ecMsXQmhzmDxs"
 
-# Create your views here.
+
 def add_to_cart(request):
     request.session.set_expiry(0)
 
@@ -55,6 +56,7 @@ def add_to_cart(request):
     else:
         raise Http404
 
+
 def view_cart(request):
     #request.session.set_expiry(10)
     try:
@@ -73,10 +75,15 @@ def view_cart(request):
             cart.total += item.total
             cart.save()
 
-    request.session['cart_items'] = len(cart.cartitem_set.all())
+    try:
+        request.session['cart_items'] = len(cart.cartitem_set.all())
+    except:
+        pass
 
     return render_to_response('cart/view.html', locals(), context_instance=RequestContext(request))
 
+
+@login_required()
 def checkout(request):
     try:
         cart_id = request.session['cart_id']
