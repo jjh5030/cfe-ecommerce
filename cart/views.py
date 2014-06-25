@@ -91,7 +91,8 @@ def checkout(request):
     except:
         cart = False
 
-    amount = int(cart.total * 100)
+    if cart:
+        amount = int(cart.total * 100)
 
     if request.method == "POST":
         token = request.POST['stripeToken']
