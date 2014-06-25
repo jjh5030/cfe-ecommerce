@@ -21,12 +21,21 @@ ALLOWED_HOSTS = []
 
 SITE_ID = 1
 
-from ecommerce.email_info import *
-EMAIL_USE_TLS = EMAIL_USE_TLS
-EMAIL_HOST = EMAIL_HOST
-EMAIL_HOST_USER = EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
-EMAIL_PORT = EMAIL_PORT
+try:
+    from ecommerce.email_info import *
+except:
+    EMAIL_HOST_USER = ""
+    EMAIL_HOST_PASSWORD = ""
+
+try:
+    EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+    EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+except:
+    pass
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
