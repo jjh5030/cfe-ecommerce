@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'profiles',
+    'orders',
 )
 
 SITE_ID = 1
@@ -107,7 +108,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'templates'),
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

@@ -20,6 +20,7 @@ def add_to_cart(request):
         cart_id = request.session['cart_id']
     except:
         cart = Cart()
+        cart.user = request.user
         cart.save()
         request.session['cart_id'] = cart.id
         cart_id = cart.id
@@ -119,7 +120,7 @@ def checkout(request):
 
     if request.method == "POST":
         token = request.POST['stripeToken']
-        profile = request.user.get_profile()
+        profile = Profile.objects.get(user=request.user)
         stripe.Charge.create(amount=amount,
                              currency="usd",
                              card=token,
