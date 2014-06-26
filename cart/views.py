@@ -1,9 +1,12 @@
+import datetime
+
 from django.shortcuts import render_to_response, HttpResponseRedirect, RequestContext, HttpResponse
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 
 from .models import Cart, CartItem
 from products.models import Product
+from profiles.models import Profile
 from .forms import ProductQtyForm
 
 import stripe
@@ -46,22 +49,37 @@ def add_to_cart(request):
             else:
                 pass
 
-            if created:
-                print "CREATED"
+            #if created:
+            #    print "CREATED"
 
-            print new_cart.product, new_cart.quantity, new_cart.cart
+            #print new_cart.product, new_cart.quantity, new_cart.cart
 
             return HttpResponseRedirect('/cart/')
         return HttpResponseRedirect('/contact/')
     else:
         raise Http404
 
+def add_stripe(user):
+    profile, created = Profile.objects.get_or_create(user=user)
+
+    if len(profile.stripe_id) > 2:
+        pass
+    else:
+        new_customer = stripe.Customer.create(
+            email=user.email,
+            description="Added to stripe on %s" % (datetime.datetime.now())
+        )
+        profile.stripe_id = new_customer.id
+        profile.save()
+
+    return profile.stripe_id
 
 def view_cart(request):
     #request.session.set_expiry(10)
     try:
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
+        request.session['cart_items'] = len(cart.cartitem_set.all())
     except:
         cart = False
 
@@ -76,7 +94,7 @@ def view_cart(request):
             cart.save()
 
     try:
-        request.session['cart_items'] = len(cart.cartitem_set.all())
+        stripe_id = add_stripe(user=request.user)
     except:
         pass
 
@@ -94,9 +112,17 @@ def checkout(request):
     if cart:
         amount = int(cart.total * 100)
 
+    try:
+        stripe_id = add_stripe(user=request.user)
+    except:
+        pass
+
     if request.method == "POST":
         token = request.POST['stripeToken']
-
-        stripe.Charge.create(amount=amount, currency="usd", card=token, description="Payment for Cart")
+        profile = request.user.get_profile()
+        stripe.Charge.create(amount=amount,
+                             currency="usd",
+                             card=token,
+                             description="Payment for Cart")
 
     return render_to_response('cart/checkout.html', locals(), context_instance=RequestContext(request))

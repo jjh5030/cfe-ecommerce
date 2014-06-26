@@ -9,7 +9,7 @@ class Profile(models.Model):
     update = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __unicode__(self):
-        return self.user
+        return str(self.user)
 
 
 class Address(models.Model):
