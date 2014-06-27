@@ -7,8 +7,12 @@ from django.contrib.auth.decorators import login_required
 from .models import Cart, CartItem
 from products.models import Product
 from profiles.models import Profile
+from profiles.forms import AddressForm
+
+from orders.models import Order
 from .forms import ProductQtyForm
 
+from orders.custom import id_generator
 import stripe
 stripe.api_key = "sk_test_LFUiJWOW8O8ecMsXQmhzmDxs"
 
@@ -49,11 +53,6 @@ def add_to_cart(request):
                 new_cart.save()
             else:
                 pass
-
-            #if created:
-            #    print "CREATED"
-
-            #print new_cart.product, new_cart.quantity, new_cart.cart
 
             return HttpResponseRedirect('/cart/')
         return HttpResponseRedirect('/contact/')
@@ -118,12 +117,29 @@ def checkout(request):
     except:
         pass
 
+    new_number = id_generator()
+
+    new_order, created = Order.objects.get_or_create(cart=cart, user=request.user)
+
+    if created:
+        new_order.status = 'Started'
+        new_order.order_id = str(new_number[:2]) + str(new_order.cart.id) + str(new_number[3:])
+        new_order.save()
+
+    address_form = AddressForm(request.POST or None)
     if request.method == "POST":
+        address_form = AddressForm(request.POST)
         token = request.POST['stripeToken']
         profile = Profile.objects.get(user=request.user)
         stripe.Charge.create(amount=amount,
                              currency="usd",
                              card=token,
                              description="Payment for Cart")
+
+        if address_form.is_valid():
+            form = address_form.save(commit=False)
+            print form
+
+        return HttpResponseRedirect('/products/')
 
     return render_to_response('cart/checkout.html', locals(), context_instance=RequestContext(request))
