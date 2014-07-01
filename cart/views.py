@@ -24,7 +24,8 @@ def add_to_cart(request):
         cart_id = request.session['cart_id']
     except:
         cart = Cart()
-        cart.user = request.user
+        if request.user.is_authenticated():
+            cart.user = request.user
         cart.save()
         request.session['cart_id'] = cart.id
         cart_id = cart.id
@@ -158,10 +159,26 @@ def checkout(request):
             else:
                 print 'did not save card'
 
-            stripe.Charge.create(amount=amount,
-                                 currency="usd",
-                                 customer=customer.id,
-                                 description="Payment for %s" % new_order.order_id)
+            charge = stripe.Charge.create(amount=amount,
+                                          currency="usd",
+                                          customer=customer.id,
+                                          description="Payment for %s" % new_order.order_id)
+
+            if charge:
+                print 'charged'
+                new_order.status = 'Collected'
+                new_order.cc_four = new_card.last4
+                new_order.address = form
+                new_order.save()
+
+                cart.user = request.user
+                cart.active = False
+                cart.save()
+
+                del request.session['cart_id']
+                del request.session['cart_items']
+
+                #requestion.session.flush() # clear everything in session and log user out
 
         return HttpResponseRedirect('/products/')
 
