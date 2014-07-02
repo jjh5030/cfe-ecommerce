@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order
+from .models import Order, ShippingStatus
 
 # Register your models here.
 class OrderAdmin(admin.ModelAdmin):
@@ -15,3 +15,10 @@ class OrderAdmin(admin.ModelAdmin):
         return False
 
 admin.site.register(Order, OrderAdmin)
+
+
+class ShippingStatusAdmin(admin.ModelAdmin):
+    class Meta:
+        model = ShippingStatus
+
+admin.site.register(ShippingStatus, ShippingStatusAdmin)

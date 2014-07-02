@@ -9,7 +9,7 @@ from products.models import Product
 from profiles.models import Profile
 from profiles.forms import AddressForm
 
-from orders.models import Order
+from orders.models import Order, ShippingStatus
 from .forms import ProductQtyForm
 
 from orders.custom import id_generator
@@ -120,6 +120,9 @@ def checkout(request):
 
     new_number = id_generator()
 
+    if not cart:
+        return HttpResponseRedirect('/products/')
+
     new_order, created = Order.objects.get_or_create(cart=cart, user=request.user)
 
     if created:
@@ -171,6 +174,9 @@ def checkout(request):
                 new_order.address = form
                 new_order.save()
 
+                add_shipping = ShippingStatus(order=new_order)
+                add_shipping.save()
+
                 cart.user = request.user
                 cart.active = False
                 cart.save()
@@ -180,6 +186,6 @@ def checkout(request):
 
                 #requestion.session.flush() # clear everything in session and log user out
 
-        return HttpResponseRedirect('/products/')
+                return HttpResponseRedirect('/orders/')
 
     return render_to_response('cart/checkout.html', locals(), context_instance=RequestContext(request))

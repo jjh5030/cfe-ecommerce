@@ -10,6 +10,13 @@ STATUS_CHOICES = (
     ('Collected', 'Collected'),
 )
 
+SHIPPING_STATUS = (
+    ('Not Shipped', 'Not Shipped'),
+    ("Shipping Soon", "Shipping Soon"),
+    ("Shipped", "Shipped"),
+)
+
+
 class Order(models.Model):
     user = models.ForeignKey(User)
     cart = models.ForeignKey(Cart)
@@ -20,3 +27,17 @@ class Order(models.Model):
 
     def __unicode__(self):
         return "Order number is %s" % self.order_id
+
+    class Meta:
+        ordering = ['-status', '-cart']
+
+
+class ShippingStatus(models.Model):
+    order = models.ForeignKey(Order)
+    status = models.CharField(max_length=120, default="Not Shipped", choices=SHIPPING_STATUS)
+    tracking_number = models.CharField(max_length=200, null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    def __unicode__(self):
+        return str(self.status)

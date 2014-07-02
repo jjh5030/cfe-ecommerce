@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table>
+    <th>Orders</th>
+    {% for order in orders %}
+        {% if order.status == 'Collected' %}
+            <tr><td>{{ order }} {% for item in order.shippingstatus_set.all %} {{ item }} {% endfor %}</td></tr>
+        {% endif %}
+    {% endfor %}
+</table>
+
+
+
+
+
+
+{% endblock %}

@@ -17,5 +17,6 @@ urlpatterns = patterns('',
     url(r'^contact/', 'contact.views.contact_us', name='contact_us'),
     url(r'^checkout/', 'cart.views.checkout', name='checkout'),
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^orders/', include('orders.urls')),
     url(r'^$', 'products.views.all_products'),
 )
