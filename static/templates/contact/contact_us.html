@@ -1,5 +1,16 @@
 {%  extends 'base.html' %}
 
 {%  block content %}
-{{ form.as_p }}
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <h1>Contact Us</h1>
+            <form class="form" method="POST" action=""> {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-primary" value="Send">
+            </form>
+
+        </div>
+
+    </div>
+
 {% endblock %}
