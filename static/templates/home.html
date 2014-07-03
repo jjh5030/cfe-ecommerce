@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block jumbotron %}
+
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+      <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="http://b2btraders.co.za/wp-content/uploads/2014/05/comb.jpg" alt="...">
+      <div class="carousel-caption">
+        <h1>Product 1</h1>
+          <p>Here is some text</p>
+      </div>
+    </div>
+    <div class="item">
+      <img src="http://trtechsolutions.com/wp-content/uploads/2013/03/data-destruction.jpg" alt="...">
+      <div class="carousel-caption">
+        <h1>Product 2</h1>
+          <p>Here is some text</p>
+      </div>
+    </div>
+
+      <div class="item">
+      <img src="http://www.cpacinc.com/files/6514/0055/7864/CPAC_slide2.png" alt="...">
+      <div class="carousel-caption">
+        <h1>Product 3</h1>
+          <p>Here is some text</p>
+      </div>
+    </div>
+
+      <div class="item">
+      <img src="http://resolverepairs.com/town/images/picloc.png" alt="...">
+      <div class="carousel-caption">
+        <h1>Product 4</h1>
+          <p>Here is some text</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
+
+{% endblock %}
+
+
+{%  block content %}
+
+    <div class="row">
+        <div class="col-lg-4">
+            <h1>Header 1</h1>
+            <p>Some more text about products</p>
+        </div>
+    <div class="col-lg-4">
+            <h1>Header 1</h1>
+            <p>Some more text about products</p>
+        </div>
+    <div class="col-lg-4">
+            <h1>Header 1</h1>
+            <p>Some more text about products</p>
+        </div>
+    </div>
+
+{% endblock %}

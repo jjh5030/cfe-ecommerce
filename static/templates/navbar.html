@@ -1,5 +1,5 @@
         <ul class="nav nav-justified">
-          <li><a href="{% url "products" %}">Home</a></li>
+          <li><a href="{% url "home" %}">Home</a></li>
           <li><a href="{% url "products" %}">Products</a></li>
           <li><a href="{% url "contact_us" %}">Contact</a></li>
           <li><a href="{% url "view_cart" %}">Cart <span class="badge badge-info">{{ request.session.cart_items }}</span></a></li>

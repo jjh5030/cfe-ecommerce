@@ -13,3 +13,6 @@ def contact_us(request):
 
 
     return render_to_response('contact/contact_us.html', locals(), context_instance=RequestContext(request))
+
+def home(request):
+    return render_to_response('home.html', locals(), context_instance=RequestContext(request))
