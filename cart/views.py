@@ -108,7 +108,7 @@ def checkout(request):
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
     except:
-        cart = False
+        return HttpResponseRedirect('/products/')
 
     if cart:
         amount = int(cart.total * 100)
@@ -119,9 +119,6 @@ def checkout(request):
         pass
 
     new_number = id_generator()
-
-    if not cart:
-        return HttpResponseRedirect('/products/')
 
     new_order, created = Order.objects.get_or_create(cart=cart, user=request.user)
 
