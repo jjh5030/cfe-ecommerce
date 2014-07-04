@@ -7,5 +7,6 @@ admin.autodiscover()
 urlpatterns = patterns('cart.views',
        url(r'^$', 'view_cart', name="view_cart"),
        url(r'^add$', 'add_to_cart'),
+       url(r'^add_ajax$', 'add_ajax', name='add_ajax'),
 
 )

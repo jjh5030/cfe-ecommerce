@@ -10,7 +10,7 @@
 
         $.ajax({
             type: "POST",
-            url: //,
+            url: "{% url 'add_ajax' %}",
             data: {
                 csrfmiddlewaretoken: "{{ csrf_token }}",
                 product_slug: $id_slug,
@@ -18,7 +18,8 @@
             },
             dataType: "json",
             success: function(data){
-                alert("Success!");
+                $(".add_to_cart").val("Cart Updated").addClass("btn btn-success");
+                $(".cart_badge_info").text(data)
             },
             error: function(rs, e){
                alert("Some error occured!");
