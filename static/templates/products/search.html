@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <form action="/search/">
+        <input type="text" name="q">
+        <input type="submit" value="Search" class="btn btn-primary">
+    </form>
+    Searched for: {{ q }}
+
+   {% for product in products %}
+    <li>{{ product }}</li>
+    {% endfor %}
+
+{% endblock %}
