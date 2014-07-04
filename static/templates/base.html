@@ -57,10 +57,19 @@
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://js.stripe.com/v1/"></script>
+
     <script type="text/javascript">
         {% block javascript %}
         {% endblock %}
-  </script>
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(
+                function(){
+                    {% block jquery %}
+                    {% endblock %}
+                });
+    </script>
 
       <div id="fb-root"></div>
     <script>(function(d, s, id) {

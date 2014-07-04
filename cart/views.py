@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from django.shortcuts import render_to_response, HttpResponseRedirect, RequestContext, HttpResponse
 from django.http import Http404
@@ -15,6 +16,13 @@ from .forms import ProductQtyForm
 from orders.custom import id_generator
 import stripe
 stripe.api_key = "sk_test_LFUiJWOW8O8ecMsXQmhzmDxs"
+
+def add_ajax(request):
+    if request.is_ajax() and request.POST:
+        new_data = json.dumps("some stuff")
+        return HttpResponse(new_data, content_type="application/json")
+    else:
+        raise Http404
 
 
 def add_to_cart(request):

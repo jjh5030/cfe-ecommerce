@@ -1,5 +1,32 @@
 {%  extends 'base.html' %}
 
+{% block jquery %}
+    $(".add_to_cart").click(function(e){
+        e.preventDefault();
+        //alert("Hello");
+
+        $id_slug = $('#id_slug').val()
+        $id_quantity = $('#id_quantity').val()
+
+        $.ajax({
+            type: "POST",
+            url: //,
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                product_slug: $id_slug,
+                product_quantity: $id_quantity
+            },
+            dataType: "json",
+            success: function(data){
+                alert("Success!");
+            },
+            error: function(rs, e){
+               alert("Some error occured!");
+            }
+        });
+    });
+{% endblock %}
+
 {% block jumbotron %}
 
 {%  endblock %}
@@ -49,7 +76,7 @@
                      {% csrf_token %}
                      <input type="hidden" name="slug" id="id_slug" value="{{ product.slug }}"/>
                      <input class="form-control" type="number" name="quantity" id="id_quantity" required="required" value="1" placeholder="Qty" style="width:80px;float:left"/>
-                     <input class="btn btn-primary pull-right" type="submit" value="Add to Cart" />
+                     <input class="add_to_cart btn btn-primary pull-right" type="submit" value="Add to Cart" />
 
                  </form>
 
